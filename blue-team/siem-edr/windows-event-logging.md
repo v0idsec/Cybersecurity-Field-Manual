@@ -1,4 +1,3 @@
-
 # Windows Event Logging
 
 ## Overview
@@ -138,3 +137,74 @@ Get-WinEvent -FilterHashtable @{
     Id = 4625
     StartTime = (Get-Date).AddHours(-24)
 } | Select-Object TimeCreated, Id, Message
+```
+
+### PowerShell: Recent Successful Logons
+
+```powershell
+Get-WinEvent -FilterHashtable @{
+    LogName = 'Security'
+    Id = 4624
+    StartTime = (Get-Date).AddHours(-24)
+} | Select-Object TimeCreated, Id, Message
+```
+
+### PowerShell: Service Installation Events
+
+```powershell
+Get-WinEvent -FilterHashtable @{
+    LogName = 'System'
+    Id = 7045
+    StartTime = (Get-Date).AddDays(-7)
+}
+```
+
+### PowerShell: Sysmon Process Creation
+
+```powershell
+Get-WinEvent -FilterHashtable @{
+    LogName = 'Microsoft-Windows-Sysmon/Operational'
+    Id = 1
+    StartTime = (Get-Date).AddHours(-24)
+}
+```
+
+## Logging Configuration Considerations
+
+Review:
+
+- Advanced Audit Policy Configuration
+- Process creation auditing
+- Command-line process auditing
+- PowerShell Script Block Logging
+- PowerShell Module Logging
+- Sysmon configuration
+- Windows Defender logging
+- Event log size and retention
+- Event forwarding configuration
+
+## Investigation Considerations
+
+When analysing Windows events, capture:
+
+- Event timestamp
+- Hostname
+- User and logon ID
+- Source address
+- Process ID
+- Parent process
+- Command line
+- Event record ID
+- Related events
+
+Correlate events across multiple channels rather than relying on one Event ID.
+
+## Further Reading
+
+- Windows Security Auditing: https://learn.microsoft.com/windows/security/threat-protection/auditing/
+- Sysmon: https://learn.microsoft.com/sysinternals/downloads/sysmon
+- Windows Event Reference: https://learn.microsoft.com/windows/security/threat-protection/auditing/basic-audit-logon-events
+
+---
+
+*Part of the Cybersecurity Field Manual — Recon. Exploit. Detect. Defend. Improve.*
